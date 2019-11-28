@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+int connectedNodes = 0;
+void DFS(int *visited, int i,vector <vector <int> >&graph)
+{
+visited[i] = 1;
+
+int s = graph[i].size();
+connectedNodes++;
+//cout <<"i ki value "<<i<<" "<< " DFS mein connnectedNodes ki value "<<connectedNodes<<endl;
+for(int j = 0; j <s; j++)
+{
+if(!visited[graph[i][j]])
+{
+DFS(visited,graph[i][j],graph);
+
+}
+}
+
+}
+int main()
+{
+int q;
+cin >> q;
+
+while(q--)
+{
+int n,m;
+long long int clib,croad,ans = 0;
+
+cin >> n >> m >> clib >> croad;
+
+ vector<vector <int> > graph;
+graph.resize(n+1);
+
+for(int i = 0; i <m ;i++)
+{
+int a,b;
+cin >> a >> b;
+graph[a].push_back(b);
+graph[b].push_back(a);
+
+}
+
+int visited[n+1];
+for(int i = 1; i <=n; i++)
+visited[i] = 0;
+
+for(int i = 1; i <=n; i++)
+{
+ 
+if(!visited[i])
+{
+    connectedNodes = 0;
+    
+    DFS(visited,i,graph);
+//cout << "Value of connectedNodes "<<connectedNodes<<endl;
+// if(clib < croad)
+// ans += (connectedNodes - 1)*clib;
+
+// else
+// ans += (connectedNodes - 1)*croad;
+if(connectedNodes > 0)
+ans +=  min((connectedNodes - 1)*croad + clib, connectedNodes*clib);
+//cout << "current value of ans "<<ans <<endl;
+}
+
+}
+cout << ans << endl;
+}
+return 0;
+}
