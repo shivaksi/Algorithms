@@ -1,0 +1,135 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<string> split_string(string);
+
+// Complete the minimumSwaps function below.
+int minimumSwaps(vector<int> arr) {
+ 
+  //cout <<" Hi "<<endl;
+  
+  vector < pair <int,int> > actual;
+  
+  int l = arr.size();
+  int visited[l+1];
+
+  //cout << l <<endl;
+  for(int i = 0 ;i < l; i++)
+    {
+        
+        cout << l <<"  "<<arr[i]<<endl;
+        // actual[i].first = arr[i];
+        // cout << "Actual one "<<actual[i].first <<endl;
+        // actual[i].second = i+1;
+
+        actual.push_back(make_pair(arr[i],i+1));
+        visited[i+1] = 0;
+    } 
+
+        cout << " After Loop "<<endl;
+ //sort(actual.begin(),actual.end());
+    
+ //cout <<" Hi before Map "<<endl;
+ map <int,int> cycle;
+   //vector <int> cycle;
+
+ 
+ int ctr = 0,cycleLength = 0,ans = 0;
+  
+  int  i = 0,k=0;
+  cout <<" Hi before while loop "<<endl;
+  
+  while(1) 
+    {
+            if(ctr == l)
+               break;
+
+            if(!visited[actual[i].first])
+                {
+                    visited[actual[i].first] = 1;
+                    ctr++;
+                    
+                    i = actual[i].first;
+                    cout <<i<< "Previous index "<<i << " ";
+                    i-=1;
+                    
+                    cout << "Current index "<<i<<endl;
+                    cycleLength++;
+                }
+            else
+                {
+                    cout<< "Cycle break thingy "<< cycleLength-1<<endl;
+                    if(cycleLength != 0)
+                    ans +=cycleLength -1;
+                    cycleLength = 0;
+                    k++;
+                    i = k;
+                }
+    
+    }
+    
+    if(cycleLength !=0)
+      ans += cycleLength - 1;
+    cout << " Hi after while loop "<<endl;
+    cout << " Value of ans is "<<ans<<endl;
+ return ans;
+}
+
+int main()
+{
+    ofstream fout(getenv("OUTPUT_PATH"));
+
+    int n;
+    cin >> n;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    string arr_temp_temp;
+    getline(cin, arr_temp_temp);
+
+    vector<string> arr_temp = split_string(arr_temp_temp);
+
+    vector<int> arr(n);
+
+    for (int i = 0; i < n; i++) {
+        int arr_item = stoi(arr_temp[i]);
+
+        arr[i] = arr_item;
+    }
+
+    int res = minimumSwaps(arr);
+
+    fout << res << "\n";
+
+    fout.close();
+
+    return 0;
+}
+
+vector<string> split_string(string input_string) {
+    string::iterator new_end = unique(input_string.begin(), input_string.end(), [] (const char &x, const char &y) {
+        return x == y and x == ' ';
+    });
+
+    input_string.erase(new_end, input_string.end());
+
+    while (input_string[input_string.length() - 1] == ' ') {
+        input_string.pop_back();
+    }
+
+    vector<string> splits;
+    char delimiter = ' ';
+
+    size_t i = 0;
+    size_t pos = input_string.find(delimiter);
+
+    while (pos != string::npos) {
+        splits.push_back(input_string.substr(i, pos - i));
+
+        i = pos + 1;
+        pos = input_string.find(delimiter, i);
+    }
+
+    splits.push_back(input_string.substr(i, min(pos, input_string.length()) - i + 1));
+
+    return splits;
+}
