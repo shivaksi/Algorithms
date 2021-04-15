@@ -1,0 +1,78 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void solve(int mat[][100], int n, int m,int x)
+  {
+      int low_limit = 0;
+      int upper_limit = n - 1;
+      int mid = (low_limit + upper_limit)/2 ,flag = 0;
+      
+      while (low_limit <= upper_limit)
+        {
+            mid = (low_limit + upper_limit)/2;
+            cout <<"mid " <<mid <<endl;
+            if(mat[mid][0] == x)
+                {
+                    cout <<"Found at "<< "(" <<mid <<" "<< 0<<")" <<endl;
+                    flag = 1;
+                    break;
+                    
+                }
+            
+            else if (mat[mid][0] < x)
+                low_limit = mid + 1;
+            
+            else
+              upper_limit = mid - 1;
+            
+        }
+    
+    if(!flag)
+        {
+            int row_to_search = upper_limit;
+            cout << "Row to search "<<row_to_search <<endl;
+            low_limit = 0;
+            upper_limit = m - 1;
+            while (low_limit <= upper_limit)
+            {
+                mid = (low_limit + upper_limit)/2;
+                
+                if(mat[row_to_search][mid] == x)
+                    {
+                        cout <<"Found at "<< "(" <<row_to_search <<" "<< mid<<")" <<endl;
+                        flag = 1;
+                        break;
+                       
+                    }
+                
+                else if (mat[row_to_search][mid] < x)
+                    low_limit = mid + 1;
+                
+                else
+                  upper_limit = mid - 1;
+            
+            }
+            cout << "Flag "<<flag <<endl;
+            if (!flag)
+                cout << -1 <<endl;
+        }
+
+  }
+
+int main()
+ {
+    int n, m,x;
+    cin >> n >> m >> x;
+    int mat [100][100];
+    vector <int> final;
+    for(int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+                cin >> mat[i][j];
+                
+        }
+    
+    solve(mat,n,m,x);
+    
+    return 0;
+ }
